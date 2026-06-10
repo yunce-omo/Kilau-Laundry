@@ -89,16 +89,17 @@ def dashboard():
         .execute()
     ).data
 
+
     selesai = (
     supabase.table("laundry")
     .select("*")
-    .in_("tahap", ["Selesai"])
+    .eq("tahap", "Selesai")
     .execute()
     ).data
 
     rows_pembelian = (
         supabase
-        .table("pembeselian")
+        .table("pembelian")
         .select("*")
         .execute()
     ).data
@@ -164,12 +165,6 @@ def dashboard():
         if row["tahap"] == "Sudah Diambil":
             status_tenggat = "Sudah Diambil"
         elif sisa_hari < 0:
-            status_tenggat = "Belum Diambil"
-            jumlah_belum_diambil += 1
-        else:
-            status_tenggat = "Selesai"
-
-        if sisa_hari < 0:
             status_tenggat = "Belum Diambil"
             jumlah_belum_diambil += 1
         else:
@@ -371,7 +366,7 @@ def dashboard1():
     paket_laundry = int(request.form['paket_laundry'])
     berat = float(request.form['berat'])
     tanggal_masuk = datetime.now()
-    tanggal_selesai = tanggal_masuk + timedelta(days=paket_laundry-3)
+    tanggal_selesai = tanggal_masuk + timedelta(days=paket_laundry)
     antar_jemput = request.form['antar_jemput']
     catatan = request.form['catatan']
 
@@ -417,7 +412,6 @@ def pembelian():
 
     return redirect(url_for('dashboard', tab='pembelian'))
 
-
 # ── LOGIKA TAHAP SELESAI ──
 @app.route('/selesai/<int:id>')
 def tahap(id):
@@ -439,9 +433,7 @@ def sudah_diambil(id):
 
     return redirect(url_for('dashboard'))
 
-# --- LOGOUT ---
-
-from flask import session, redirect, url_for
+# LOGOUT
 @app.route('/logout')
 def logout():
     session.clear()

@@ -93,7 +93,7 @@ def dashboard():
     selesai = (
     supabase.table("laundry")
     .select("*")
-    .eq("tahap", "Selesai")
+    .eq("tahap", ["Selesai"])
     .execute()
     ).data
 

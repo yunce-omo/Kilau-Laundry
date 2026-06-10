@@ -1,0 +1,125 @@
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css')}}">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<div class="page active" id="pg-dashboard-k">
+  <div class="page-header">
+    <h2>Dashboard <span class="gold">Karyawan</span></h2>
+    <p>Ringkasan hari ini — {{ tanggal }}</p>
+  </div>
+
+ <!-- Stat cards ringkasan -->
+<div class="stat-grid">
+
+  <div class="stat-card">
+    <div class="stat-icon">
+      <i class="fas fa-calendar-day"></i>
+    </div>
+    <div>
+      <div class="stat-label">Hari Ini!</div>
+      <div class="stat-value">{{jumlah_masuk_hari_ini}}</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">
+      <i class="fas fa-spinner"></i>
+    </div>
+    <div>
+      <div class="stat-label">Dalam Proses</div>
+      <div class="stat-value">{{jumlah_proses}}</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">
+      <i class="fas fa-triangle-exclamation"></i>
+    </div>
+    <div>
+      <div class="stat-label">Lewat Jadwal</div>
+      <div class="stat-value">{{jumlah_belum_diambil}}</div>
+      <div class="stat-change down">Perlu perhatian</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">
+      <i class="fas fa-clock"></i>
+    </div>
+    <div>
+      <div class="stat-label">Waktu Sekarang</div>
+      <div class="stat-value">{{jam_sekarang}} WIB</div>
+    </div>
+  </div>
+
+</div>
+
+  <!-- Baris: chart pesanan harian + tabel pesanan terbaru -->
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Pesanan Yang Akan Diambil Hari Ini!</div>
+          <div class="card-subtitle">Jumlah pesanan masuk per hari</div>
+        </div>
+      </div>
+        <div class="card-body" style="padding: 0;">
+         <div class="tbl-scroll">
+          <table>
+            <tbody id="tblStatus">
+              {% for row in data_selesai %}
+              {% if row.sisa_hari == 0 %}
+              <tr data-status="{{row.status_tenggat}}">
+                <td>#{{row.id}}</td>
+                <td>{{ row.nama }}</td>
+                <td>{{ row.wa }}</td>
+                <td>{{row.gender}}</td>
+                <td>
+                  <button class="btn-khucus btn-primary" onclick="showDetailStatus(
+                          '{{ row.id }}',
+                          '{{ row.nama }}',
+                          '{{ row.gender }}',
+                          '{{ row.wa }}',
+                          '{{ row.paket }}',
+                          '{{ row.tanggal_selesai }}',
+                          '{{ row.status_tenggat }}'
+                          )">
+                    Detail
+                  </button>
+                </td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Pesanan Belum Diambil!</div>
+        <button class="okegas btn-outline tertettettettet" onclick="navigateTo('pg-status-pesanan')">Lihat
+          Semua</button>
+      </div>
+      <div class="card-body" style="padding:0">
+        <div class="yoaimamen">
+          <table>
+            <tbody id="tblStatus">
+              {% for row in data_selesai %}
+              {% if row.sisa_hari < 0 %} <tr data-status="{{row.status_tenggat}}">
+                <td>#{{row.id}}</td>
+                <td>{{ row.nama }}</td>
+                <td>{{ row.wa }}</td>
+                <td>Sudah {{row.telat_woy}} Hari</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /pg-dashboard-k -->

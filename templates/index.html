@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>LaundryPro — Dashboard</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  {% include "pages/sidebar.html" %}
+
+  <!-- MAIN WRAPPER -->
+  <div class="main-content">
+
+  <!-- TOPBAR -->
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+      {% include "pages/dashboard-karyawan.html" %}
+      {% include "pages/input-laundry.html" %}
+      {% include "pages/jadwal-laundry.html" %}
+      {% include "pages/status-pesanan.html" %}
+      {% include "pages/pembelian.html" %}
+      {% include "admin/dashboard-admin.html" %}
+      {% include "admin/data-penjualan.html" %}
+      {% include "admin/pelanggan.html" %}
+      {% include "admin/laporan.html" %}
+  </div>
+  <div class="toast-container" id="toastContainer"></div>
+  {% include "modals/modals-jadwal.html" %}
+  {% include "modals/modals-status.html" %}
+  {% include "modals/modals.html" %}
+  <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/website.js') }}"></script>
+</body>
+</html>

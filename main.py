@@ -92,13 +92,13 @@ def dashboard():
     selesai = (
     supabase.table("laundry")
     .select("*")
-    .in_("tahap", ["Selesai", "Sudah Diambil"])
+    .in_("tahap", ["Selesai"])
     .execute()
     ).data
 
     rows_pembelian = (
         supabase
-        .table("pembelian")
+        .table("pembeselian")
         .select("*")
         .execute()
     ).data

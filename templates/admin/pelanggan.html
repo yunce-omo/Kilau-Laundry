@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css')}}">
+<div class="page" id="pg-pelanggan">
+    <div class="page-header">
+        <h2>Data Pelanggan</h2>
+        <p>Database pelanggan tetap dan baru</p>
+    </div>
+
+    <!-- Chart pertumbuhan & segmentasi gender -->
+    <div class="two-col">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Pertumbuhan Pelanggan (per Minggu)</div>
+            </div>
+            <div class="card-body">
+                <div class="chart-wrap">
+                    <canvas id="chartGrowth"
+                        data-labels="{{ growth_labels | tojson }}"
+                        data-values="{{ growth_data | tojson }}">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Segmentasi Gender</div>
+            </div>
+            <div class="card-body">
+                <div style="height:320px;position: relative;">
+                    <canvas id="chartGender"
+                        data-perempuan="{{ jml_perempuan }}"
+                        data-lakilaki="{{ jml_lakilaki }}">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daftar pelanggan dari database -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Daftar Pelanggan</div>
+            <input class="form-control" id="searchPelanggan"
+                style="width:200px;padding:6px 12px;font-size:12px"
+                placeholder="Cari nama / WA..."
+                onkeyup="searchPelangganFn()" />
+        </div>
+        <div class="card-body" style="padding:0">
+            <div class="tbl-wrap tbl-scroll">
+                <table id="tblPelanggan">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Gender</th>
+                            <th>No WA</th>
+                            <th>Total Order</th>
+                            <th>Total Bayar</th>
+                            <th>Terakhir Order</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i, p in enumerate(daftar_pelanggan) %}
+                        <tr>
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ p.nama }}</td>
+                            <td>
+                                {% if p.gender in ('P', 'Perempuan') %}
+                                    <span class="gender-badge gender-p">Perempuan</span>
+                                {% else %}
+                                    <span class="gender-badge gender-l">Laki-laki</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ p.wa }}</td>
+                            <td>{{ p.total_order }}</td>
+                            <td>Rp {{ "{:,.0f}".format(p.total_bayar) }}</td>
+                            <td>{{ p.terakhir_order }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div><!-- /pg-pelanggan -->

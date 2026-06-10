@@ -1,0 +1,141 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css')}}">
+<!-- ─── DATA PENJUALAN (ADMIN) ─── -->
+<div class="page" id="pg-data-penjualan">
+    <div class="page-header">
+        <h2>Data Penjualan</h2>
+        <p>Riwayat pendapatan dan penjualan paket laundry</p>
+    </div>
+
+    <!-- Grafik pendapatan mingguan -->
+    <div class="card" style="margin-bottom:20px">
+        <div class="card-header">
+            <div class="card-title">Grafik Pendapatan Minggu Ini</div>
+        </div>
+        <div class="card-body">
+            <div class="chart-wrap-tall">
+                <canvas id="chartPenjualan2"
+                    data-labels="{{ chart_pendapatan_labels | tojson }}"
+                    data-values="{{ chart_pendapatan_data | tojson }}">
+                </canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="two-col">
+        <!-- Paket terlaris: hanya Kilat & Santuy -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Paket Terlaris (Minggu Ini)</div>
+            </div>
+            <div class="card-body">
+                <div class="chart-wrap">
+                    <canvas id="chartPaket"
+                        data-kilat="{{ jml_kilat_minggu }}"
+                        data-santuy="{{ jml_santuy_minggu }}">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ringkasan keuangan minggu ini -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Ringkasan Keuangan Minggu Ini</div>
+            </div>
+            <div class="card-body">
+                <div class="ringkasan-keuangan">
+
+                    <!-- Pendapatan kotor -->
+                    <div class="ringkasan-row">
+                        <span class="ringkasan-label">Pendapatan Kotor</span>
+                        <span class="ringkasan-val val-green">
+                            Rp {{ "{:,.0f}".format(total_pendapatan_minggu) }}
+                        </span>
+                    </div>
+                    <div class="progress-wrap">
+                        {% set pct_pend = (total_pendapatan_minggu / (total_pendapatan_minggu + 1) * 100) | int %}
+                        {% if pct_pend > 100 %}{% set pct_pend = 100 %}{% endif %}
+                        {% if pct_pend < 0 %}{% set pct_pend = 0 %}{% endif %}
+                        <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                    <!-- disini yang mau diubah width -->
+
+                    <!-- Pengeluaran -->
+                    <div class="ringkasan-row">
+                        <span class="ringkasan-label">Pengeluaran Minggu Ini</span>
+                        <span class="ringkasan-val val-orange">
+                            Rp {{ "{:,.0f}".format(total_pengeluaran_minggu) }}
+                        </span>
+                    </div>
+                    <div class="progress-wrap">
+                        {% if total_pendapatan_minggu > 0 %}
+                            {% set pct_keluar = (total_pengeluaran_minggu / total_pendapatan_minggu * 100) | int %}
+                            {% if pct_keluar > 100 %}{% set pct_keluar = 100 %}{% endif %}
+                        {% else %}
+                            {% set pct_keluar = 0 %}
+                        {% endif %}
+                        <div class="progress-bar stres" style="width: 100%;"></div>
+                    </div>
+                    <!-- disini yang mau diubah di width -->
+
+                    <!-- Laba bersih -->
+                    <div class="ringkasan-divider">
+                        <span class="ringkasan-total-label">Laba Bersih</span>
+                        {% if laba_bersih_minggu >= 0 %}
+                        <span class="ringkasan-val val-green">
+                            Rp {{ "{:,.0f}".format(laba_bersih_minggu) }}
+                        </span>
+                        {% else %}
+                        <span class="ringkasan-val val-orange">
+                            Rp {{ "{:,.0f}".format(laba_bersih_minggu) }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Riwayat transaksi -->
+    <!-- <div class="card">
+        <div class="card-header">
+            <div class="card-title">Riwayat Transaksi Lengkap</div>
+            <button class="btn btn-outline btn-sm">📥 Export Excel</button>
+        </div>
+        <div class="card-body card-body-table">
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Pelanggan</th>
+                            <th>Paket</th>
+                            <th>Berat</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>02 Jun</td>
+                            <td>Siti R.</td>
+                            <td>Santuy</td>
+                            <td>3 kg</td>
+                            <td>Rp 18.000</td>
+                            <td><span class="badge badge-selesai">Lunas</span></td>
+                        </tr>
+                        <tr>
+                            <td>02 Jun</td>
+                            <td>Budi H.</td>
+                            <td>Kilat</td>
+                            <td>4 kg</td>
+                            <td>Rp 36.000</td>
+                            <td><span class="badge badge-proses">Sebagian</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> -->
+</div><!-- /pg-data-penjualan -->

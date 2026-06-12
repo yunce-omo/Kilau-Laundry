@@ -8,12 +8,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <aside class="sidebar" id="sidebar">
     <!-- Brand / Logo -->
     <div class="sidebar-brand">
-      <div class="brand-icon">
+     <div class="brand-icon">
     <img src="{{ url_for('static', filename='img/logo-baru.png') }}" alt="Kilau Laundry">
 </div>
       <div>
-        <div class="brand-name">LaundryPro</div>
-        <div class="brand-sub">Management System</div>
+        <div class="brand-name">KilauLaundry</div>
       </div>
     </div>
     <!-- ── MENU KARYAWAN ── -->
@@ -92,21 +91,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
     <!-- Info user di bawah sidebar -->
     <div class="sidebar-user">
-      <div class="user-avatar">{{ username[0]|upper }}</div>
-      <div>
-        <div class="user-info-name">{{ username|title }}</div>
-        <div class="user-info-role">{{ role }}</div>
-      </div>
+    <div class="user-left">
+        <div class="user-avatar">{{ username[0]|upper }}</div>
+        <div>
+            <div class="user-info-name">{{ username|title }}</div>
+            <div class="user-info-role">{{ role }}</div>
+        </div>
     </div>
-
-<a href="#"
-   class="nav-item"
-   onclick="openLogoutModal();return false ;">
-    <span class="nav-icon">
-    <i class="fa-solid fa-right-from-bracket"></i>
-</span>
-    <span class="nav-label">Logout</span>
-</a>
+    <a href="#"
+       style="display:flex; align-items:center; gap:6px; text-decoration:none; color:#dc3545; font-size:12px; font-weight:600; border-left:1px solid #e9ecef; padding-left:12px; white-space:nowrap;"
+       onclick="openLogoutModal();return false;">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Logout</span>
+    </a>
+</div>
   </aside>
 
   <div id="logoutModal" class="logout-modal">
@@ -117,7 +115,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         <h2>Yakin ingin logout?</h2>
 
         <p>
-            Anda akan keluar dari sistem LaundryPro dan harus login kembali untuk mengakses dashboard.
+            Anda akan keluar dari sistem KilauLaundry dan harus login kembali untuk mengakses dashboard.
         </p>
 
         <div class="logout-actions">

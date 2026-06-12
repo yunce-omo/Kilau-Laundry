@@ -1107,5 +1107,5 @@ select.form-control { cursor:pointer; }
 }
 
 .emas{
-   color: var(----color-gold);
+   color: var(--color-gold);
 }

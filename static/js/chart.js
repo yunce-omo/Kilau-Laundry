@@ -1,12 +1,5 @@
-/* ════════════════════════════════════════════
-   LAUNDRYPRO — chart.js
-   Data diambil dari data-attribute canvas (dikirim Flask via Jinja2)
-   Membutuhkan: https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js
-   ════════════════════════════════════════════ */
-
 let charts = {};
 
-/* ── Gradient helpers ── */
 function gradientBlue(ctx) {
   const g = ctx.createLinearGradient(0, 0, 0, 300);
   g.addColorStop(0, 'rgba(94,114,228,0.4)');
@@ -14,14 +7,12 @@ function gradientBlue(ctx) {
   return g;
 }
 
-/* ── Helper: baca data-attribute dari canvas, parse JSON ── */
 function readData(id, attr) {
   const el = document.getElementById(id);
   if (!el) return null;
   try { return JSON.parse(el.dataset[attr]); } catch { return null; }
 }
 
-/* ── Destroy & buat chart baru ── */
 function createChart(id, config) {
   const canvas = document.getElementById(id);
   if (!canvas) return;
@@ -29,7 +20,6 @@ function createChart(id, config) {
   charts[id] = new Chart(canvas, config);
 }
 
-/* ── Axis style reusable ── */
 const axisDefault = {
   y: {
     grid: { color: '#f0f2f5' },
@@ -55,13 +45,8 @@ const axisRupiah = {
   }
 };
 
-
-/* ════════════════════════════════════════════
-   INIT ALL CHARTS
-   ════════════════════════════════════════════ */
 function initCharts() {
 
-  /* ── 1. Chart Pesanan Minggu Ini (Karyawan Dashboard) ── */
   const labelsK  = readData('chartWeekK', 'labels') || ['Sen','Sel','Rab','Kam','Jum','Sab','Min'];
   const valuesK  = readData('chartWeekK', 'values') || [0,0,0,0,0,0,0];
   createChart('chartWeekK', {
@@ -91,8 +76,6 @@ function initCharts() {
     initCharts();
 });
 
-
-  /* ── 2. Chart Pendapatan Overview (Admin) — hanya mingguan, 1 batang ── */
   const labelsP = readData('chartPenjualan', 'labels') || ['Sen','Sel','Rab','Kam','Jum','Sab','Min'];
   const valuesP = readData('chartPenjualan', 'values') || [0,0,0,0,0,0,0];
   createChart('chartPenjualan', {
@@ -115,8 +98,6 @@ function initCharts() {
     }
   });
 
-
-  /* ── 3. Chart Distribusi Pelanggan (donut) ── */
   const valPerempuan = readData('chartPelanggan', 'perempuan') || 0;
   const valLakilaki  = readData('chartPelanggan', 'lakilaki')  || 0;
 
@@ -145,8 +126,6 @@ function initCharts() {
     }
   });
 
-
-  /* ── 4. Chart Total Pesanan per Hari (Admin) — BAR, mingguan ── */
   const labelsPO = readData('chartTotalOrders', 'labels') || ['Sen','Sel','Rab','Kam','Jum','Sab','Min'];
   const valuesPO = readData('chartTotalOrders', 'values') || [0,0,0,0,0,0,0];
   createChart('chartTotalOrders', {
@@ -185,7 +164,7 @@ function initCharts() {
         borderWidth: 2.5,
         pointRadius: 4,
         pointBackgroundColor: '#5e72e4',
-        tension: 0,        // 0 = garis lurus
+        tension: 0,
         fill: true
       }]
     },
@@ -197,8 +176,6 @@ function initCharts() {
     }
   });
 
-
-  /* ── 6. Chart Paket Terlaris (donut) — hanya Kilat & Santuy ── */
   const valKilat  = readData('chartPaket', 'kilat')  || 0;
   const valSantuy = readData('chartPaket', 'santuy') || 0;
   createChart('chartPaket', {
@@ -225,10 +202,8 @@ function initCharts() {
     }
   });
 
-
-  /* ── 7. Chart Pertumbuhan Pelanggan — LINE ── */
-  const labelsG = readData('chartGrowth', 'labels') || [];
-  const valuesG = readData('chartGrowth', 'values') || [];
+  const labelsG = readData('chartGrowth', 'labels') || ['Minggu-1','Minggu-2','Minggu-3','Minggu-4','Minggu-5'];
+  const valuesG = readData('chartGrowth', 'values') || [1, 11, 101, 0, 0];
   createChart('chartGrowth', {
     type: 'line',
     data: {
@@ -253,8 +228,6 @@ function initCharts() {
     }
   });
 
-
-  /* ── 8. Chart Segmentasi Gender — BAR ── */
   const gPerempuan = readData('chartGender', 'perempuan') || 0;
   const gLakilaki  = readData('chartGender', 'lakilaki')  || 0;
   createChart('chartGender', {
@@ -278,7 +251,7 @@ function initCharts() {
     scales: {
       y: {
         beginAtZero: true,
-        max: 200   // <- ubah sesuai kebutuhan
+        max: 200
       },
       x: {
         grid: {

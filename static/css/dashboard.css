@@ -1106,3 +1106,6 @@ select.form-control { cursor:pointer; }
     color:#6b7280;
 }
 
+.emas{
+   color: var(----color-gold);
+}
